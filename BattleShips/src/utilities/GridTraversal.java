@@ -2,10 +2,22 @@ package utilities;
 
 public class GridTraversal {
 
-	public static void printYourGrid(int[][] grid) {
+	//Print player grid.
+	public static void printPlayerGrid(int[][] grid) {
 		for (int i = 0; i < 10; i++) {
 			System.out.print("| ");
 
+			/*
+			 * 1- = Already Missed
+			 * 0 = Empty
+			 * 1 = Hit
+			 * 2 = Aircraft Carrier
+			 * 3 = Battleship
+			 * 4 = Cruiser
+			 * 5 = Submarine
+			 * 6 = Destroyer
+			 * 
+			 */
 			for (int j = 0; j < 10; j++) {
 				switch (grid[i][j]) {
 				case (0): {
@@ -42,14 +54,20 @@ public class GridTraversal {
 				}
 				}
 			}
-
+			
 			System.out.println();
 		}
-
+		
 		System.out.println();
 	}
 	
+	//Print enemy grid.
 	public static void printEnemyGrid(int[][] grid) {
+		
+		/*
+		 * -1 = Already missed
+		 * 1 = Hit
+		 */
 		for (int i = 0; i < 10; i++) {
 			System.out.print("| ");
 
@@ -76,6 +94,7 @@ public class GridTraversal {
 		System.out.println();
 	}
 
+	//Check if grid has all ships hit.
 	public static boolean checkIfLost(int[][] grid) {
 		
 		boolean lost = false;
@@ -100,6 +119,7 @@ public class GridTraversal {
 		return lost;
 	}
 	
+	//Set grid to all empty.
 	public static void clearGrid(int[][] grid) {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {

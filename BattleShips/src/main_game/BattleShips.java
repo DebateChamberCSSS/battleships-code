@@ -3,43 +3,47 @@ import java.util.Scanner;
 
 import utilities.GridTraversal;
 import utilities.ShipPlacement;
+import utilities.TestGrid;
 
 public class BattleShips {
 	
 	public static void main (String args[])
 	{
 		
+		//Board set-up
 		int[][] playerGrid = new int [10][10];
 		int[][] aiGrid = new int [10][10];
 
+		//Initialise to empty
 		GridTraversal.clearGrid(playerGrid);
 		GridTraversal.clearGrid(aiGrid);
 		
+		//Randomly place ships
 		ShipPlacement.placeShips(playerGrid);
 		ShipPlacement.placeShips(aiGrid);
 		
+		//Print enemy grid
 		System.out.println("Enemy Grid");
 		GridTraversal.printEnemyGrid(aiGrid);		
 		
+		//Print player grid
 		System.out.println("Your Grid");
-		GridTraversal.printYourGrid(playerGrid);
+		GridTraversal.printPlayerGrid(playerGrid);
 		
 		
-		
-		
+		//Game loop variables
 		boolean gameActive = true;
 		boolean playerTurn = true;
+		
+		//Game loop
 		while(gameActive)
 		{
-		
-			//testShots(playerGrid, aiGrid);
-			//testShots(aiGrid, playerGrid);
-		
-			
 			if(playerTurn)
 			{
-				playerTurn(aiGrid);
+				//Method to allow manual input of co-ordinates. Shot is taken at the board taken as parameter.
+				manualShot(aiGrid);
 				
+				//Check  if player has won.
 				if(GridTraversal.checkIfLost(aiGrid) == true)
 				{
 					gameActive = false;
@@ -48,8 +52,10 @@ public class BattleShips {
 			}
 			else
 			{
-				aiTurn(playerGrid);
+				//Method to select a shot through AI. Shot is taken at the board taken as parameter.
+				aiShot(playerGrid);
 				
+				//Check if AI has won.
 				if(GridTraversal.checkIfLost(aiGrid) == true)
 				{
 					gameActive = false;
@@ -58,12 +64,16 @@ public class BattleShips {
 			}
 			
 			
+			//Print enemy grid.
 			System.out.println("Enemy Grid");
 			GridTraversal.printEnemyGrid(aiGrid);		
 			
+			//Print player grid.
 			System.out.println("Your Grid");
-			GridTraversal.printYourGrid(playerGrid);	
+			GridTraversal.printPlayerGrid(playerGrid);	
 			
+			
+			//Change turns.
 			if(playerTurn == true)
 			{
 				playerTurn = false;
@@ -75,37 +85,55 @@ public class BattleShips {
 			
 		}
 	}
+
 	
-	
-	private static void playerTurn(int[][] aiGrid){
+	//ADD CODE IN FOR AI METHOD WHICH DECIDES COORDINATES
+	private static void aiShot(int[][] playerGrid){
 		
-		selectShot(aiGrid);
+		/*
+		 * 
+		 * 
+		 * ADD AI CODE IN HERE!!!
+		 * 
+		 * 
+		 */
 		
-	}
-	
-	private static void aiTurn(int[][] playerGrid){
-		
-		selectShot(playerGrid);
+		//Remove this to add code.
+		manualShot(playerGrid);
 		
 	}
 
 	
 	
-	
-	private static void selectShot(int[][]grid){
+	//Method for manually selecting a co-ordinate.
+	private static void manualShot(int[][]grid){
 		
+		//Input scanner (DON'T CLOSE!!!)
 		Scanner scan = new Scanner(System.in);
 
+		//Select x co-ordinate
 		System.out.println("Enter an x co-ordinate: ");
 		int x = scan.nextInt();
 		
+		//Select y co-ordinate
 		System.out.println("Enter an y co-ordinate: ");
 		int y = scan.nextInt();
 		scan.nextLine();
 		
+		//Adjust co-ordinates to array indexing
 		x = x-1;
 		y = y-1;
 		
+		
+		/*
+		 * Update for hits:
+		 * 
+		 * -1 = Already missed
+		 * 0 = Empty
+		 * 1 = Hit
+		 * 2-6 = Different ship types
+		 * 
+		 */
 		if((grid[x][y] != 0) && (grid[x][y] != -1))
 		{
 			System.out.println("HIT!");
@@ -118,46 +146,4 @@ public class BattleShips {
 		}
 		
 	}
-
-	
-	
-	
-	
-	
-	private static void testShots (int[][] playerGrid, int[][] aiGrid)
-	{
-		for(int i = 0; i < 10; i++)
-		{
-			for(int j = 0; j < 10; j++)
-			{
-				if((aiGrid[i][j] != 0) && (aiGrid[i][j] != -1))
-				{
-					System.out.println("HIT!");
-					aiGrid[i][j] = 1;
-				}
-				else
-				{
-					System.out.println("MISS!");
-					aiGrid[i][j] = -1;
-				}		
-				
-				System.out.println("Enemy Grid");
-				GridTraversal.printEnemyGrid(aiGrid);		
-				
-				System.out.println("Your Grid");
-				GridTraversal.printYourGrid(playerGrid);
-				
-				if(GridTraversal.checkIfLost(aiGrid) == true)
-				{
-					break;
-				}
-			}
-			
-			if(GridTraversal.checkIfLost(aiGrid) == true)
-			{
-				break;
-			}
-		}
-	}
-
 }
